@@ -56,7 +56,7 @@ class Connection(btle.Peripheral):
 				if c.supportsRead() and name != 'fff5':
 					try:
 						b = bytearray(c.read())
-					except:
+					except Exception:
 						b = ''
 					try:
 						if name in ('2a50', 'fff6'):
@@ -65,7 +65,7 @@ class Connection(btle.Peripheral):
 							b = b[0]
 						logging.info('\t%s: %s' % (name, b))
 						dat.update({name: b})
-					except:
+					except Exception:
 						logging.info('\t%s: %s' % (name, list(b)))
 						dat.update({name: list(b)})
 				else:
@@ -75,7 +75,7 @@ class Connection(btle.Peripheral):
 		return out
 
 
-class Ball:
+class Ball(object):
 	sock = None
 	name = None
 	mac = None
@@ -106,6 +106,7 @@ class Ball:
 			self.sock = self._connect(self.mac)
 		else:
 			raise IOError("No arguments")
+		
 
 	def _connect(self, mac):
 		logging.info("Create sock")
